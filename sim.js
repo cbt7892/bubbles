@@ -17,7 +17,7 @@ var colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
             		  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
 
 function checkCollision(x, y, size) { // return index of circle if collision, otherwise return -1
-  for (var i = 0; i < numCircles; i++) {
+  for (var i = 0; i < circles.length; i++) {
     var other = circles[i];
     if (other.x == x && other.y == y && other.size == size) {
       continue;
@@ -97,8 +97,18 @@ for (var i = 0; i < numCircles; i++) {
   var size = Math.floor(Math.random() * 40) + 20;
   var x = Math.floor(Math.random() * innerWidth);
   var y = Math.floor(Math.random() * innerHeight);
+  while (checkCollision(x, y, size) != -1) {
+    x = Math.floor(Math.random() * innerWidth);
+    y = Math.floor(Math.random() * innerHeight);
+  }
   var vx = Math.floor(Math.random() * 5) + 1; // generate random circles
+  if (Math.floor(Math.random() * Math.floor(2)) == 1) {
+    vx *= -1; // 50% chance of negative velocity
+  }
   var vy = Math.floor(Math.random() * 5) + 1;
+  if (Math.floor(Math.random() * Math.floor(2)) == 1) {
+    vy *= -1; // 50% chance of negative velocity
+  }
   var index = Math.floor(Math.random() * colorArray.length);
   var circle = new Circle(x, y, size, vx, vy, colorArray[index]);
   circles.push(circle);
